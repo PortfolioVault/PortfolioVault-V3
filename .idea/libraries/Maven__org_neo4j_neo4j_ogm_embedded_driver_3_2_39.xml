@@ -1,0 +1,13 @@
+<component name="libraryTable">
+  <library name="Maven: org.neo4j:neo4j-ogm-embedded-driver:3.2.39">
+    <CLASSES>
+      <root url="jar://$MAVEN_REPOSITORY$/org/neo4j/neo4j-ogm-embedded-driver/3.2.39/neo4j-ogm-embedded-driver-3.2.39.jar!/" />
+    </CLASSES>
+    <JAVADOC>
+      <root url="jar://$MAVEN_REPOSITORY$/org/neo4j/neo4j-ogm-embedded-driver/3.2.39/neo4j-ogm-embedded-driver-3.2.39-javadoc.jar!/" />
+    </JAVADOC>
+    <SOURCES>
+      <root url="jar://$MAVEN_REPOSITORY$/org/neo4j/neo4j-ogm-embedded-driver/3.2.39/neo4j-ogm-embedded-driver-3.2.39-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>
