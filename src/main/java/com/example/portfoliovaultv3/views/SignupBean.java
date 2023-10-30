@@ -1,6 +1,7 @@
 package com.example.portfoliovaultv3.views;
 
 import com.example.portfoliovaultv3.exceptions.EmailAlreadyTakenException;
+import com.example.portfoliovaultv3.models.Neo4jConnectionManager;
 import com.example.portfoliovaultv3.models.User;
 import com.example.portfoliovaultv3.repositories.UserRepository;
 import com.example.portfoliovaultv3.services.UserServiceEJB;
@@ -10,6 +11,10 @@ import jakarta.faces.context.FacesContext;
 import jakarta.faces.view.ViewScoped;
 import jakarta.inject.Inject;
 import jakarta.inject.Named;
+import lombok.NoArgsConstructor;
+import org.neo4j.ogm.session.Session;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.io.IOException;
 import java.io.Serializable;
@@ -25,6 +30,7 @@ public class SignupBean implements Serializable {
     private String lastName;
     private String email;
     private String password;
+
 
     public String getFirstName() {
         return firstName;
@@ -62,9 +68,6 @@ public class SignupBean implements Serializable {
     @Inject
     private UserServiceEJB userService;
 
-
-    private UserRepository userRepository;
-
     public String signup() {
         try{
             userService.registerUser(firstName, lastName, email, password);
@@ -81,14 +84,21 @@ public class SignupBean implements Serializable {
         }catch (Exception exception){
             logger.warning(exception.getMessage());
             FacesContext context = FacesContext.getCurrentInstance();
-//            FacesMessage message = new FacesMessage("Something went wrong", "");
-            FacesMessage message = new FacesMessage(exception.getMessage(), "");
+            FacesMessage message = new FacesMessage("Something went wrong", "");
             context.addMessage(null, message);
         }
         return null; // Specify the navigation outcome to a success page
-//        User user=new User();
-//        user.setFirstname("najwa");
-//        userRepository.save(user);
+//        Session session = Neo4jConnectionManager.getNeo4jSession();
+//        try {
+//            User user = new User();
+//            user.setFirstname("test");
+////            userRepository.save(user);
+//            session.save(user);
+//        } finally {
+//            if (session != null) {
+//                session.clear(); // Optionnel : pour vider le contexte de la session
+//            }
+//        }
 //        return null;
     }
 

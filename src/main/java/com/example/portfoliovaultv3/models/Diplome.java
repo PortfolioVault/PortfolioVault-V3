@@ -25,4 +25,8 @@ public class Diplome {
     private List<DiplomaDetails> Students;
 
 
+    public Diplome(String university, String fieldOfStudy) {
+        this.university=university;
+        this.fieldOfStudy=fieldOfStudy;
+    }
 }

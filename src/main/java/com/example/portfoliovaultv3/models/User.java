@@ -2,7 +2,7 @@ package com.example.portfoliovaultv3.models;
 
 
 import com.example.portfoliovaultv3.models.relationDetails.DiplomaDetails;
-import com.example.portfoliovaultv3.models.relationDetails.EmploymentDetails;
+import com.example.portfoliovaultv3.models.relationDetails.CompanyDetails;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -33,6 +33,6 @@ public class User {
     private List<DiplomaDetails> diplomes=new ArrayList<>();
 
     @Relationship(type = "HAS_EMPLOYEE")
-    private List<EmploymentDetails> companies=new ArrayList<>();
+    private List<CompanyDetails> companies=new ArrayList<>();
 
 }

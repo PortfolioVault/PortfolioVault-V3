@@ -1,6 +1,6 @@
 package com.example.portfoliovaultv3.models;
 
-import com.example.portfoliovaultv3.models.relationDetails.EmploymentDetails;
+import com.example.portfoliovaultv3.models.relationDetails.CompanyDetails;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -19,9 +19,12 @@ import java.util.List;
 @NoArgsConstructor
 public class Company {
     @Id @GeneratedValue
-    private String id;
+    private Long id;
     private String name;
-
     @Relationship(type = "HAS_EMPLOYEE", direction = Relationship.Direction.INCOMING)
-    private List<EmploymentDetails> employees;
+    private List<CompanyDetails> employees;
+
+    public Company(String name) {
+        this.name=name;
+    }
 }
