@@ -1,56 +1,60 @@
 package com.example.portfoliovaultv3.services;
 
-import com.example.portfoliovaultv2.exceptions.EmailAlreadyTakenException;
-import com.example.portfoliovaultv2.models.User;
-import com.example.portfoliovaultv2.services.utils.DatabaseUtils;
-import com.example.portfoliovaultv2.session.UserSession;
-import com.mongodb.client.MongoCollection;
-import com.mongodb.client.model.Filters;
+import com.example.portfoliovaultv3.exceptions.EmailAlreadyTakenException;
+import com.example.portfoliovaultv3.models.Neo4jConnectionManager;
+import com.example.portfoliovaultv3.models.User;
+import com.example.portfoliovaultv3.repositories.UserRepository;
+import com.example.portfoliovaultv3.session.UserSession;
 import jakarta.ejb.Stateless;
 import jakarta.inject.Inject;
-import org.bson.Document;
+import org.neo4j.driver.Driver;
+import org.neo4j.driver.Session;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.neo4j.core.Neo4jClient;
+import org.springframework.stereotype.Service;
 
 import java.util.Objects;
-import java.util.logging.Logger;
-
-import static com.mongodb.client.model.Filters.eq;
 
 @Stateless
+@Service
 public class UserServiceEJB {
-    private static final String COLLECTION_NAME = "portfolios";
-    private final MongoCollection<Document> collection = DatabaseUtils.getCollection(COLLECTION_NAME);
 
-    private Logger logger= Logger.getLogger(String.valueOf(UserServiceEJB.class));
+    @Inject
+    private Neo4jConnectionManager connectionManager;
+
+    Driver neo4jDriver = connectionManager.getNeo4jDriver();
 
     @Inject
     private UserSession userSession;
+
+    public UserRepository userRepository;
+
     public void registerUser(String firstName, String lastName, String email, String password) throws EmailAlreadyTakenException{
-        User user = findUserByEmail(email);
+        User user = userRepository.findUserByEmail(email);
         if(user != null){
             //check if a user with same email exists
             throw  new EmailAlreadyTakenException();
         }else{
 
-        // Create a document with user data and insert it into the collection
-        Document userDocument = new Document()
-                .append("firstname", firstName)
-                .append("lastname", lastName)
-                .append("email", email)
-                .append("password", password);
-
-        collection.insertOne(userDocument);
-        userSession.setEmail(email);
+            try (Session session = neo4jDriver.session()) {
+                // Create a node with user data and insert it into the collection
+                User newUser = new User();
+                newUser.setFirstname(firstName);
+                newUser.setEmail(email);
+                newUser.setLastname(lastName);
+                newUser.setPassword(password);
+                userRepository.save(newUser);
+                userSession.setEmail(email);
+            }
         }
+//        User user=new User();
+//        user.setFirstname("najwa");
+//        userRepository.save(user);
     }
 
-    public User findUserByEmail(String email){
-        Document user =  collection.find(eq("email",email)).first();
-        return User.documentToUser(user);
-    }
 
     public boolean login(String email,String password){
-        logger.info("hola");
-        User user = findUserByEmail(email);
+        User user = userRepository.findUserByEmail(email);
         boolean loginResult = false;
         if(user != null && Objects.equals(user.getPassword(), password)){
             loginResult = true;
@@ -59,12 +63,15 @@ public class UserServiceEJB {
         return loginResult;
     }
 
-    public void savePersonalInfos(String email,String phoneNumber,String age, String professionalTitle,String address){
-        Document document = new Document("$set",new Document()
-                .append("professionalTitle",professionalTitle)
-                .append("phoneNumber",phoneNumber)
-                .append("address",address)
-                .append("age",age));
-        collection.updateOne(Filters.eq("email",email),document);
+    public void savePersonalInfos(String email,String phoneNumber,String age, String professionalTitle,String address) {
+        User user = userRepository.findUserByEmail(email);
+        if (user != null) {
+            //check if the user exists
+            user.setAddress(address);
+            user.setProfessionalTitle(professionalTitle);
+            user.setAge(age);
+            user.setPhoneNumber(phoneNumber);
+            userRepository.save(user);
+        }
     }
 }

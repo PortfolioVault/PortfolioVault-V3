@@ -13,7 +13,6 @@ import org.neo4j.ogm.annotation.NodeEntity;
 import org.neo4j.ogm.annotation.Relationship;
 
 import java.util.ArrayList;
-import java.util.LinkedList;
 import java.util.List;
 
 @NodeEntity
@@ -35,4 +34,5 @@ public class User {
 
     @Relationship(type = "HAS_EMPLOYEE")
     private List<EmploymentDetails> companies=new ArrayList<>();
+
 }
