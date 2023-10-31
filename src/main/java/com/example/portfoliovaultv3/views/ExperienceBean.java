@@ -41,7 +41,12 @@ public class ExperienceBean implements Serializable {
     private String endDay;
 
     public String ajouterExperience() {
+        if(ExperienceServiceEJB.findCompanyByName(name)==null){
         experience=new Company(name);
+        }else{
+            experience=ExperienceServiceEJB.findCompanyByName(name);
+        }
+
         companyDetails=new CompanyDetails(jobTitle,startDay,endDay);
 
         //ajouter les données dans la database

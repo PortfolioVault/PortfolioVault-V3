@@ -21,7 +21,7 @@ public class Company {
     @Id @GeneratedValue
     private Long id;
     private String name;
-    @Relationship(type = "HAS_EMPLOYEE", direction = Relationship.Direction.INCOMING)
+    @Relationship(type = "HAS_WORKED", direction = Relationship.Direction.INCOMING)
     private List<CompanyDetails> employees;
 
     public Company(String name) {

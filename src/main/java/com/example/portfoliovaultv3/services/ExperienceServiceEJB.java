@@ -16,7 +16,7 @@ import java.util.logging.Logger;
 @Stateless
 public class ExperienceServiceEJB {
     private Logger logger = Logger.getLogger(String.valueOf(ExperienceServiceEJB.class));
-    Session session = Neo4jConnectionManager.getNeo4jSession();
+    static Session session = Neo4jConnectionManager.getNeo4jSession();
 
     public void addExperience(String email, Company company, CompanyDetails details) {
         User user = UserServiceEJB.findUserByEmail(email);
@@ -70,6 +70,26 @@ public class ExperienceServiceEJB {
 
     }
 
+    public static Company findCompanyByName(String name){
+        try {
+            Map<String, Object> parameters = new HashMap<>();
+            parameters.put("name", name);
+            String cypher = "MATCH (d:Company {name: $name })--(relatedNode) RETURN d, relatedNode";
+            Iterable<Company> result = session.query(Company.class, cypher, parameters);
+            if (result.iterator().hasNext() ){
+                return result.iterator().hasNext() ? result.iterator().next() :null ;
+            }
+            String cypher1 = "MATCH (p:Company) WHERE p.name = $name RETURN p";
+            Iterable<Company> result1 = session.query(Company.class, cypher1, parameters);
+            return result1.iterator().hasNext() ? result1.iterator().next() :null ;
+
+        } finally {
+            if (session != null) {
+                session.clear(); // Optionnel : pour vider le contexte de la session
+            }
+        }
+    }
+
     public Map<Company, CompanyDetails> getDetailsForAllCompanies(String email) {
         User user = UserServiceEJB.findUserByEmail(email);
         if (user == null) {
@@ -77,14 +97,14 @@ public class ExperienceServiceEJB {
         }
 
         Long userId = user.getId();
-        User loadedUser = session.load(User.class, userId); // Charger l'utilisateur avec ses relations
+        User loadedUser = session.load(User.class, userId,1); // Charger l'utilisateur avec ses relations
 
-        Map<Company, CompanyDetails> companyDetailsMap = new HashMap<>();
-        for (CompanyDetails companyDetails : loadedUser.getCompanies()) {
-            Company company = companyDetails.getCompany();
-            companyDetailsMap.put(company, companyDetails);
-        }
+            Map<Company, CompanyDetails> companyDetailsMap = new HashMap<>();
+            for (CompanyDetails companyDetails : loadedUser.getCompanies()) {
+                Company company = companyDetails.getCompany();
+                companyDetailsMap.put(company, companyDetails);
+            }
+            return companyDetailsMap;
 
-        return companyDetailsMap;
     }
 }

@@ -19,14 +19,14 @@ public class Diplome {
     @GeneratedValue
     private Long id;
     private String university;
-    private String fieldOfStudy;
+//    private String fieldOfStudy;
 
     @Relationship(type = "HAS_DIPLOMA", direction = Relationship.Direction.INCOMING)
     private List<DiplomaDetails> Students;
 
 
-    public Diplome(String university, String fieldOfStudy) {
+    public Diplome(String university) {
         this.university=university;
-        this.fieldOfStudy=fieldOfStudy;
+//        this.fieldOfStudy=fieldOfStudy;
     }
 }

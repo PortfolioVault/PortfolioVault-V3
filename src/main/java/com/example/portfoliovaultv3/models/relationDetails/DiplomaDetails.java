@@ -22,9 +22,12 @@ public class DiplomaDetails {
 
     private String degreeType;
     private String yearOfObtention;
+    private String fieldOfStudy;
 
-    public DiplomaDetails(String degreeType, String yearOfObtention ) {
+
+    public DiplomaDetails(String degreeType, String yearOfObtention,String fieldOfStudy ) {
         this.degreeType=degreeType;
         this.yearOfObtention=yearOfObtention;
+        this.fieldOfStudy=fieldOfStudy;
     }
 }

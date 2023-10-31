@@ -10,7 +10,7 @@ import org.neo4j.ogm.annotation.*;
 
 import java.util.Date;
 
-@RelationshipEntity(type = "HAS_EMPLOYEE")
+@RelationshipEntity(type = "HAS_WORKED")
 @Getter
 @Setter
 @NoArgsConstructor
@@ -32,4 +32,5 @@ public class CompanyDetails {
         this.startDay=startDay;
         this.endDay=endDay;
     }
+
 }

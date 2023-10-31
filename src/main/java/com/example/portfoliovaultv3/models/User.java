@@ -32,7 +32,7 @@ public class User {
     @Relationship(type = "HAS_DIPLOMA")
     private List<DiplomaDetails> diplomes=new ArrayList<>();
 
-    @Relationship(type = "HAS_EMPLOYEE")
+    @Relationship(type = "HAS_WORKED")
     private List<CompanyDetails> companies=new ArrayList<>();
 
 }

@@ -15,19 +15,43 @@ import java.util.Map;
 @Stateless
 @Slf4j
 public class DiplomeServiceEJB {
-    Session session = Neo4jConnectionManager.getNeo4jSession();
+    static Session session = Neo4jConnectionManager.getNeo4jSession();
 
     public void addDiploma(String email, Diplome diplome, DiplomaDetails details) {
+//        Diplome existedDiplome= findDiplomeByUniversity(diplome.getUniversity());
         User user = UserServiceEJB.findUserByEmail(email);
+//        if(existedDiplome == null){
         try {
             DiplomaDetails diplomaDetails = new DiplomaDetails();
             diplomaDetails.setUser(user);
             diplomaDetails.setDiplome(diplome);
             diplomaDetails.setDegreeType(details.getDegreeType());
             diplomaDetails.setYearOfObtention(details.getYearOfObtention());
+            diplomaDetails.setFieldOfStudy(details.getFieldOfStudy());
 
             user.getDiplomes().add(diplomaDetails); // Ajoutez le diplôme à la liste de diplômes de l'utilisateur
             session.save(user); // Enregistrez l'utilisateur avec la relation établie
+        } finally {
+            if (session != null) {
+                session.clear(); // Optionnel : pour vider le contexte de la session
+            }
+        }
+
+    }
+
+    public static Diplome findDiplomeByUniversity(String university){
+        try {
+            Map<String, Object> parameters = new HashMap<>();
+            parameters.put("university", university);
+            String cypher = "MATCH (d:Diplome {university: $university })--(relatedNode) RETURN d, relatedNode";
+            Iterable<Diplome> result = session.query(Diplome.class, cypher, parameters);
+            if (result.iterator().hasNext() ){
+                return result.iterator().hasNext() ? result.iterator().next() :null ;
+            }
+            String cypher1 = "MATCH (p:Diplome) WHERE p.university = $university RETURN p";
+            Iterable<Diplome> result1 = session.query(Diplome.class, cypher1, parameters);
+            return result1.iterator().hasNext() ? result1.iterator().next() :null ;
+
         } finally {
             if (session != null) {
                 session.clear(); // Optionnel : pour vider le contexte de la session
@@ -59,7 +83,7 @@ public class DiplomeServiceEJB {
         }
 
         Long userId = user.getId();
-        User loadedUser = session.load(User.class, userId); // Charger l'utilisateur avec ses relations
+        User loadedUser = session.load(User.class, userId,1); // Charger l'utilisateur avec ses relations
 
         Map<Diplome, DiplomaDetails> diplomeDetailsMap = new HashMap<>();
         for (DiplomaDetails diplomaDetails : loadedUser.getDiplomes()) {

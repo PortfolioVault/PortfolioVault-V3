@@ -42,9 +42,13 @@ public class DiplomaBean implements Serializable {
     private String fieldOfStudy;
 
     public String ajouterDiplome() {
-        diplome=new Diplome(university,fieldOfStudy);
-        diplomaDetails=new DiplomaDetails(degreeType,yearOfObtention);
+        if(DiplomeServiceEJB.findDiplomeByUniversity(university)==null) {
+            diplome = new Diplome(university);
+        }else {
+            diplome=DiplomeServiceEJB.findDiplomeByUniversity(university);
+        }
 
+        diplomaDetails = new DiplomaDetails(degreeType, yearOfObtention, fieldOfStudy);
         //ajouter les données dans la database
         diplomeServiceEJB.addDiploma(userSession.getEmail(), diplome,diplomaDetails);
 
