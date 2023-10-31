@@ -8,7 +8,8 @@
       xmlns:f="http://xmlns.jcp.org/jsf/core">
 <head>
     <title>#{profilPageBean.firstName} Portfolio</title>
-    <link rel="stylesheet" href="styles/Profile_style.css"/>
+    <link rel="stylesheet" href="styles/profil-style.css
+"/>
 </head>
 <body>
 <f:metadata>
@@ -25,43 +26,69 @@
     <li>Phone Number: #{profilPageBean.phoneNumber}</li>
 </ul>
 <h2>Educations</h2>
-<c:if test="#{not empty profilPageBean.educations}">
-    <h:dataTable value="#{profilPageBean.educations}" var="education" styleClass="education-table">
-        <h:column>
+
+<h:form>
+    <h:dataTable var="entry" value="#{diplomaBean.allDiplomesDetails}" styleClass="education-table">
+        <h:column >
             <f:facet name="header">Date d'Obtention</f:facet>
-            #{education.yearOfObtention}
+            #{entry.value.yearOfObtention}
         </h:column>
-        <h:column>
+        <h:column >
             <f:facet name="header">Diplôme</f:facet>
-            #{education.diplomat}
+            #{entry.key.fieldOfStudy}
         </h:column>
-        <h:column>
+        <h:column >
             <f:facet name="header">Université</f:facet>
-            #{education.university}
+            <h:outputText value="#{entry.key.university}" />
         </h:column>
+
     </h:dataTable>
-</c:if>
+</h:form>
+
+
 
 <h2>Experiences</h2>
-<c:if test="#{not empty profilPageBean.experiences}">
-    <h:dataTable value="#{profilPageBean.experiences}" var="experience" styleClass="experience-table">
-        <h:column>
-            <f:facet name="header">Date de Début</f:facet>
-            #{experience.startDate}
-        </h:column>
-        <h:column>
-            <f:facet name="header">Date de Fin</f:facet>
-            #{experience.endDate}
-        </h:column>
-        <h:column>
-            <f:facet name="header">Rôle</f:facet>
-            #{experience.role}
-        </h:column>
-        <h:column>
-            <f:facet name="header">Entreprise</f:facet>
-            #{experience.company}
-        </h:column>
-    </h:dataTable>
-</c:if>
+    <h:form>
+        <h:dataTable var="entry" value="#{experienceBean.allExperiencesDetails.entrySet()}" styleClass="experience-table">
+            <h:column >
+    <f:facet name="header">Le Role </f:facet>
+        #{entry.value.jobTitle}
+            </h:column>
+            <h:column >
+                <f:facet name="header">Entreprise</f:facet>
+                #{entry.key.name}
+            </h:column>
+            <h:column >
+                <f:facet name="header">Debut </f:facet>#{entry.value.startDay}
+            </h:column>
+            <h:column >
+                <f:facet name="header">Fin </f:facet>#{entry.value.endDay}
+            </h:column>
+        </h:dataTable>
+    </h:form>
+
+
+
+
+<!--<c:if test="#{not empty profilPageBean.experiences}">-->
+<!--    <h:dataTable value="#{profilPageBean.experiences}" var="experience" styleClass="experience-table">-->
+<!--        <h:column>-->
+<!--            <f:facet name="header">Date de Début</f:facet>-->
+<!--            #{experience.startDate}-->
+<!--        </h:column>-->
+<!--        <h:column>-->
+<!--            <f:facet name="header">Date de Fin</f:facet>-->
+<!--            #{experience.endDate}-->
+<!--        </h:column>-->
+<!--        <h:column>-->
+<!--            <f:facet name="header">Rôle</f:facet>-->
+<!--            #{experience.role}-->
+<!--        </h:column>-->
+<!--        <h:column>-->
+<!--            <f:facet name="header">Entreprise</f:facet>-->
+<!--            #{experience.company}-->
+<!--        </h:column>-->
+<!--    </h:dataTable>-->
+<!--</c:if>-->
 </body>
 </html>
