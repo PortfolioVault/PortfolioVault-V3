@@ -1,10 +1,8 @@
 package com.example.portfoliovaultv3.services;
 
-import com.example.portfoliovaultv3.models.Company;
 import com.example.portfoliovaultv3.models.Diplome;
 import com.example.portfoliovaultv3.models.Neo4jConnectionManager;
 import com.example.portfoliovaultv3.models.User;
-import com.example.portfoliovaultv3.models.relationDetails.CompanyDetails;
 import com.example.portfoliovaultv3.models.relationDetails.DiplomaDetails;
 import jakarta.ejb.Stateless;
 import lombok.extern.slf4j.Slf4j;

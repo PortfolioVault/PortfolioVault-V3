@@ -21,7 +21,7 @@ import java.util.Objects;
 public class UserServiceEJB {
 
 
-    Session session = Neo4jConnectionManager.getNeo4jSession();
+    static Session session = Neo4jConnectionManager.getNeo4jSession();
 
     @Inject
     private UserSession userSession;
@@ -55,13 +55,18 @@ public class UserServiceEJB {
     }
 
     public static User findUserByEmail(String email){
-        Session session = Neo4jConnectionManager.getNeo4jSession();
         try {
             Map<String, Object> parameters = new HashMap<>();
             parameters.put("email", email);
-            String cypher = "MATCH (p:User) WHERE p.email = $email RETURN p";
+            String cypher = "MATCH (p:User {email: $email})-[r]-(related) RETURN p, r, related";
             Iterable<User> result = session.query(User.class, cypher, parameters);
-            return result.iterator().hasNext() ? result.iterator().next() : null;
+            if (result.iterator().hasNext() ){
+                return result.iterator().hasNext() ? result.iterator().next() :null ;
+            }
+            String cypher1 = "MATCH (p:User) WHERE p.email = $email RETURN p";
+            Iterable<User> result1 = session.query(User.class, cypher1, parameters);
+                return result1.iterator().hasNext() ? result1.iterator().next() :null ;
+
         } finally {
             if (session != null) {
                 session.clear(); // Optionnel : pour vider le contexte de la session

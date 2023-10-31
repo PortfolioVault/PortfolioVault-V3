@@ -7,23 +7,26 @@
       xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
       xmlns:f="http://xmlns.jcp.org/jsf/core">
 <head>
-    <title>Profil</title>
-    <link rel="stylesheet" href="styles/profil-style.css"/>
+    <title>#{profilPageBean.firstName} Portfolio</title>
+    <link rel="stylesheet" href="styles/Profile_style.css"/>
 </head>
 <body>
-<h1>#{userSessionBean.firstName} #{userSessionBean.lastName}</h1>
+<f:metadata>
+    <f:event type="preRenderView" listener="#{profilPageBean.getUser}" />
+</f:metadata>
+<h1>#{profilPageBean.firstName} #{profilPageBean.lastName}</h1>
 
 <h2>Personal Infos</h2>
 <ul>
-    <li>Professional Title: #{userSessionBean.professionalTitle}</li>
-    <li>Age: #{userSessionBean.age}</li>
-    <li>Email: #{userSessionBean.email}</li>
-    <li>Address: #{userSessionBean.address}</li>
-    <li>Phone Number: #{userSessionBean.phoneNumber}</li>
+    <li>Professional Title: #{profilPageBean.professionalTitle}</li>
+    <li>Age: #{profilPageBean.age}</li>
+    <li>Email: #{profilPageBean.email}</li>
+    <li>Address: #{profilPageBean.address}</li>
+    <li>Phone Number: #{profilPageBean.phoneNumber}</li>
 </ul>
 <h2>Educations</h2>
-<c:if test="#{not empty userSessionBean.educations}">
-    <h:dataTable value="#{userSessionBean.educations}" var="education" styleClass="education-table">
+<c:if test="#{not empty profilPageBean.educations}">
+    <h:dataTable value="#{profilPageBean.educations}" var="education" styleClass="education-table">
         <h:column>
             <f:facet name="header">Date d'Obtention</f:facet>
             #{education.yearOfObtention}
@@ -40,8 +43,8 @@
 </c:if>
 
 <h2>Experiences</h2>
-<c:if test="#{not empty userSessionBean.educations}">
-    <h:dataTable value="#{userSessionBean.experiences}" var="experience" styleClass="experience-table">
+<c:if test="#{not empty profilPageBean.experiences}">
+    <h:dataTable value="#{profilPageBean.experiences}" var="experience" styleClass="experience-table">
         <h:column>
             <f:facet name="header">Date de Début</f:facet>
             #{experience.startDate}

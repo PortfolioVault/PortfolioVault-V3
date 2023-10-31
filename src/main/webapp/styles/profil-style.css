@@ -1,8 +1,7 @@
 @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@100;300;400;500;700;900&display=swap');
 
-
 body {
-    /*background-color: black;*/
+    background-color: #dad3d3;
     /*color: white;*/
     font-family: "Roboto", sans-serif;
     margin: 200px;
@@ -12,30 +11,32 @@ body {
 
 h1 {
     text-align: center;
-    font-size: 24px;
+    font-size: 34px;
     font-weight: bold;
-    margin-bottom: 20px;
-    color: #c445d0;
+    margin-bottom: 40px;
+    padding-bottom: 20px;
+    color: #70257a;
 }
 
 h2 {
-    font-size: 20px;
+    font-size: 26px;
     font-weight: bold;
-    margin-top: 20px;
-    margin-bottom: 20px;
-    color: #385de0;
+    margin-top: 25px;
+    margin-bottom: 25px;
+
+    color: #2849ad;
 }
 
 ul {
     list-style-type: none;
-    padding: 0;
+    padding: 5px;
+    padding-left: 20px;
 }
 
 li {
     font-size: 16px;
     margin-bottom: 10px;
 }
-
 .education-table, .experience-table {
     width: 80%;
     margin: 0 auto;
@@ -46,8 +47,7 @@ li {
 
 .education-table th, .education-table td,
 .experience-table th, .experience-table td {
-    border: 1px solid white;
+    border: 5px solid #dad3d3;
     padding: 8px;
     text-align: left;
 }
-

@@ -26,6 +26,10 @@
             <label for="diplomat">Diplomat</label>
             <h:inputText id="diplomat" value="#{diplomaBean.fieldOfStudy}" placeholder="Diplomat" />
         </div>
+        <div class="form-control">
+            <label for="degree">Degree classification</label>
+            <h:inputText id="degree" value="#{diplomaBean.degreeType}" placeholder="Diplomat" />
+        </div>
         <h:commandButton styleClass="submit-btn" value="save Education" action="#{diplomaBean.ajouterDiplome()}" />
     </h:form>
 </div>
