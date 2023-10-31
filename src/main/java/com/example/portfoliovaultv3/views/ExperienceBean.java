@@ -17,8 +17,8 @@ import lombok.Setter;
 
 import java.io.IOException;
 import java.io.Serializable;
-import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 @Named
 @ViewScoped
@@ -65,5 +65,9 @@ public class ExperienceBean implements Serializable {
 
     public List<Company> getAllExperiences(){
         return experienceServiceEJB.getExperiences(userSession.getEmail());
+    }
+
+    public Map<Company, CompanyDetails> getAllExperiencesDetails(){
+        return experienceServiceEJB.getDetailsForAllCompanies(userSession.getEmail());
     }
 }

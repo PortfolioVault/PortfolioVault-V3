@@ -21,10 +21,10 @@ public class DiplomaDetails {
     private Diplome diplome;
 
     private String degreeType;
-    private int yearObtained;
+    private String yearOfObtention;
 
-    public DiplomaDetails(String degreeType, int yearObtained ) {
+    public DiplomaDetails(String degreeType, String yearOfObtention ) {
         this.degreeType=degreeType;
-        this.yearObtained=yearObtained;
+        this.yearOfObtention=yearOfObtention;
     }
 }

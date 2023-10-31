@@ -17,7 +17,7 @@ import java.util.List;
 public class Diplome {
     @Id
     @GeneratedValue
-    private String id;
+    private Long id;
     private String university;
     private String fieldOfStudy;
 

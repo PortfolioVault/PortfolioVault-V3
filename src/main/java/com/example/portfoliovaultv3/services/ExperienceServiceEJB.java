@@ -6,23 +6,17 @@ import com.example.portfoliovaultv3.models.Diplome;
 import com.example.portfoliovaultv3.models.Neo4jConnectionManager;
 import com.example.portfoliovaultv3.models.User;
 import com.example.portfoliovaultv3.models.relationDetails.CompanyDetails;
-import com.example.portfoliovaultv3.models.relationDetails.DiplomaDetails;
 import jakarta.ejb.Stateless;
-import lombok.extern.slf4j.Slf4j;
 import org.neo4j.ogm.session.Session;
 
-import java.util.ArrayList;
-import java.util.LinkedList;
-import java.util.List;
+import java.util.*;
 import java.util.logging.Logger;
 
 
 @Stateless
-@Slf4j
 public class ExperienceServiceEJB {
     private Logger logger = Logger.getLogger(String.valueOf(ExperienceServiceEJB.class));
     Session session = Neo4jConnectionManager.getNeo4jSession();
-    List<CompanyDetails> test=new ArrayList<>() ;
 
     public void addExperience(String email, Company company, CompanyDetails details) {
         User user = UserServiceEJB.findUserByEmail(email);
@@ -48,21 +42,49 @@ public class ExperienceServiceEJB {
         if(user == null){
             return null;
         }
-
-        //Importer le noeud avec ses relation
         Long userId = user.getId();
         User loadedUser = session.load(User.class, userId);
+//        session.load(User.class, -1); // Charger complètement l'utilisateur avec toutes ses relations
 
         LinkedList<Company> experiences = new LinkedList<>();
         for (CompanyDetails companyDetails : loadedUser.getCompanies()) {
             experiences.add(companyDetails.getCompany());
         }
         return experiences;
-    }
- public static void main(String[] args) {
-        ExperienceServiceEJB experienceServiceEJB=new ExperienceServiceEJB();
 
-     System.out.println(experienceServiceEJB.getExperiences("leghrisnajwa@gmail.com"));
-     System.out.println(experienceServiceEJB.test);
-}
+    }
+
+    public LinkedList<CompanyDetails> getExperiencesDetails(String email) {
+        User user = UserServiceEJB.findUserByEmail(email);
+        if(user == null){
+            return null;
+        }
+        Long userId = user.getId();
+        User loadedUser = session.load(User.class, userId,2);
+
+        LinkedList<CompanyDetails> experiences = new LinkedList<>();
+        for (CompanyDetails companyDetails : loadedUser.getCompanies()) {
+            experiences.add(companyDetails);
+        }
+        return experiences;
+
+    }
+
+    public Map<Company, CompanyDetails> getDetailsForAllCompanies(String email) {
+        User user = UserServiceEJB.findUserByEmail(email);
+        if (user == null) {
+            return null;
+        }
+
+        Long userId = user.getId();
+        User loadedUser = session.load(User.class, userId); // Charger l'utilisateur avec ses relations
+
+        Map<Company, CompanyDetails> companyDetailsMap = new HashMap<>();
+        for (CompanyDetails companyDetails : loadedUser.getCompanies()) {
+            Company company = companyDetails.getCompany();
+            companyDetailsMap.put(company, companyDetails);
+        }
+
+        return companyDetailsMap;
+    }
 }

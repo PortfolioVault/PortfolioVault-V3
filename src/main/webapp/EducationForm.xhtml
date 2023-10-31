@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+<head>
+    <title>Add Education</title>
+</head>
+<body>
+<h1 class="signup-heading">Home</h1>
+<link rel="stylesheet" href="styles/signup-styles.css"/>
+
+<div class="form-container">
+    <h:form styleClass="form">
+        <div class="form-control">
+            <label for="yearOfObtention">Year of Obtention</label>
+            <h:inputText id="yearOfObtention" value="#{diplomaBean.yearOfObtention}" placeholder="Year of Obtention" />
+        </div>
+        <div class="form-control">
+            <label for="university">University</label>
+            <h:inputText id="university" value="#{diplomaBean.university}" placeholder="University" />
+        </div>
+        <div class="form-control">
+            <label for="diplomat">Diplomat</label>
+            <h:inputText id="diplomat" value="#{diplomaBean.fieldOfStudy}" placeholder="Diplomat" />
+        </div>
+        <h:commandButton styleClass="submit-btn" value="save Education" action="#{diplomaBean.ajouterDiplome()}" />
+    </h:form>
+</div>
+</body>
+</html>

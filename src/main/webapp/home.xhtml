@@ -56,35 +56,39 @@
         </div>
     </h:form>
 </div>
-<!--    <div class="section-container">-->
-<!--        <h3 class="section-title">Your Educational Background</h3>-->
-<!--        <c:if test="#{not empty userSessionBean.educations}">-->
-<!--            <div class="cards-container">-->
-<!--                <ui:repeat value="#{userSessionBean.educations}" var="education">-->
-<!--                    <div class="card">-->
-<!--                        <h3>#{education.diplomat}</h3>-->
-<!--                        <p><strong>University:</strong> #{education.university}</p>-->
-<!--                        <p><strong>Year of obtention:</strong> #{education.yearOfObtention}</p>-->
-<!--                    </div>-->
-<!--                </ui:repeat>-->
-<!--            </div>-->
-<!--        </c:if>-->
-<!--        <div class="submit-container">-->
-<!--            <a href="EducationForm.xhtml" class="submit-btn">Add New</a>-->
-<!--        </div>-->
-<!--    </div>-->
 <div class="section-container">
     <h3 class="section-title">Your Work Experiences</h3>
-    <c:if test="#{not empty experienceBean.allExperiences}">
+    <c:if test="#{not empty diplomaBean.allDiplomesDetails}">
         <div class="cards-container">
-            <ui:repeat value="#{experienceBean.allExperiences}" var="experience">
+            <c:forEach var="entry" items="#{diplomaBean.allDiplomesDetails}">
+                <c:set var="diplome" value="#{entry.key}" />
+                <c:set var="details" value="#{entry.value}" />
                 <div class="card">
-                    <h3>#{experienceBean.jobTitle}</h3>
-                    <p><strong>Name of Company:</strong> #{experience.name}</p>
-                    <p><strong>Start Date:</strong> #{experience.startDate}</p>
-                    <p><strong>Finish Date:</strong> #{experience.endDate}</p>
+                    <h3>#{diplome.fieldOfStudy}</h3>
+                    <p><strong>Degree:</strong> #{details.degreeType}</p>
+                    <p><strong>Year Of Obtention:</strong> #{details.yearOfObtention}</p>
                 </div>
-            </ui:repeat>
+            </c:forEach>
+        </div>
+    </c:if>
+    <div class="submit-container">
+        <a href="EducationForm.xhtml" class="submit-btn">Add New</a>
+    </div>
+</div>
+<div class="section-container">
+    <h3 class="section-title">Your Work Experiences</h3>
+    <c:if test="#{not empty experienceBean.allExperiencesDetails}">
+        <div class="cards-container">
+            <c:forEach var="entry" items="#{experienceBean.allExperiencesDetails}">
+                <c:set var="company" value="#{entry.key}" />
+                <c:set var="details" value="#{entry.value}" />
+                <div class="card">
+                    <h3>#{details.jobTitle}</h3>
+                    <p><strong>Name of Company:</strong> #{company.name}</p>
+                    <p><strong>Start Date:</strong> #{details.startDay}</p>
+                    <p><strong>Finish Date:</strong> #{details.endDay}</p>
+                </div>
+            </c:forEach>
         </div>
     </c:if>
     <div class="submit-container">
