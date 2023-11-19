@@ -14,7 +14,7 @@ public class Neo4jConnectionManager  {
     private static SessionFactory buildSessionFactory() {
         Configuration configuration = new Configuration.Builder()
                 .uri("bolt://localhost:7687")
-                .credentials("neo4j", "portfolio")
+                .credentials("neo4j", "fatifati12")
                 .build();
 
         return new SessionFactory(configuration, "com.example.portfoliovaultv3.models.*");

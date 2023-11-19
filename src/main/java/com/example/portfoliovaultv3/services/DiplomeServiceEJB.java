@@ -8,9 +8,7 @@ import jakarta.ejb.Stateless;
 import lombok.extern.slf4j.Slf4j;
 import org.neo4j.ogm.session.Session;
 
-import java.util.HashMap;
-import java.util.LinkedList;
-import java.util.Map;
+import java.util.*;
 
 @Stateless
 @Slf4j
@@ -76,22 +74,47 @@ public class DiplomeServiceEJB {
 
     }
 
-    public Map<Diplome, DiplomaDetails> getDetailsForAllDiplomes(String email) {
+//    public Map<Diplome, DiplomaDetails> getDetailsForAllDiplomes(String email) {
+//        User user = UserServiceEJB.findUserByEmail(email);
+//        if (user == null) {
+//            return null;
+//        }
+//
+//        Long userId = user.getId();
+//        User loadedUser = session.load(User.class, userId,1); // Charger l'utilisateur avec ses relations
+//
+//        Map<Diplome, DiplomaDetails> diplomeDetailsMap = new HashMap<>();
+//        for (DiplomaDetails diplomaDetails : loadedUser.getDiplomes()) {
+//            Diplome diplome = diplomaDetails.getDiplome();
+//            diplomeDetailsMap.put(diplome, diplomaDetails);
+//        }
+//
+//        return diplomeDetailsMap;
+//    }
+
+    public List<Map<String, Object>> getDetailsForAllDiplomes(String email) {
         User user = UserServiceEJB.findUserByEmail(email);
         if (user == null) {
             return null;
         }
 
         Long userId = user.getId();
-        User loadedUser = session.load(User.class, userId,1); // Charger l'utilisateur avec ses relations
+        User loadedUser = session.load(User.class, userId, 1); // Charger l'utilisateur avec ses relations
 
-        Map<Diplome, DiplomaDetails> diplomeDetailsMap = new HashMap<>();
+        List<Map<String, Object>> diplomeDetailsList = new ArrayList<>();
         for (DiplomaDetails diplomaDetails : loadedUser.getDiplomes()) {
             Diplome diplome = diplomaDetails.getDiplome();
-            diplomeDetailsMap.put(diplome, diplomaDetails);
+
+            Map<String, Object> entry = new HashMap<>();
+            entry.put("diplome", diplome);
+            entry.put("diplomaDetails", diplomaDetails);
+
+            diplomeDetailsList.add(entry);
         }
 
-        return diplomeDetailsMap;
+        return diplomeDetailsList;
     }
+
+
 
 }

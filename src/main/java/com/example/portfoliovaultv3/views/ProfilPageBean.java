@@ -118,7 +118,7 @@ public class ProfilPageBean implements Serializable {
         this.experiences = experiences;
     }
 
-    public Map<Diplome, DiplomaDetails> getEducations() {
+    public List<Map<String, Object>> getEducations() {
         return diplomeServiceEJB.getDetailsForAllDiplomes(userSession.getEmail());
     }
 

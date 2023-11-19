@@ -26,46 +26,43 @@
     <li>Phone Number: #{profilPageBean.phoneNumber}</li>
 </ul>
 <h2>Educations</h2>
-
-<h:form>
-    <h:dataTable var="entry" value="#{diplomaBean.allDiplomesDetails}" styleClass="education-table">
-        <h:column >
+<c:if test="#{not empty diplomaBean.allDiplomesDetails}">
+    <h:dataTable value="#{diplomaBean.allDiplomesDetails}" var="entry" styleClass="education-table">
+        <h:column>
             <f:facet name="header">Date d'Obtention</f:facet>
-            #{entry.value.yearOfObtention}
+            #{entry['diplomaDetails'].yearOfObtention}
         </h:column>
-        <h:column >
+        <h:column>
             <f:facet name="header">Diplôme</f:facet>
-            #{entry.value.fieldOfStudy}
+            #{entry['diplomaDetails'].fieldOfStudy}
         </h:column>
-        <h:column >
+        <h:column>
             <f:facet name="header">Université</f:facet>
-            <h:outputText value="#{entry.key.university}" />
+            #{entry['diplome'].university}
         </h:column>
-
     </h:dataTable>
-</h:form>
-
+</c:if>
 
 
 <h2>Experiences</h2>
-    <h:form>
-        <h:dataTable var="entry" value="#{experienceBean.allExperiencesDetails.entrySet()}" styleClass="experience-table">
-            <h:column >
-    <f:facet name="header">Le Role </f:facet>
-        #{entry.value.jobTitle}
-            </h:column>
-            <h:column >
-                <f:facet name="header">Entreprise</f:facet>
-                #{entry.key.name}
-            </h:column>
-            <h:column >
-                <f:facet name="header">Debut </f:facet>#{entry.value.startDay}
-            </h:column>
-            <h:column >
-                <f:facet name="header">Fin </f:facet>#{entry.value.endDay}
-            </h:column>
-        </h:dataTable>
-    </h:form>
+    <c:if test="#{not empty experienceBean.allExperiencesDetails}">
+            <h:dataTable var="entry" value="#{experienceBean.allExperiencesDetails}" styleClass="experience-table">
+                <h:column >
+        <f:facet name="header">Le Role </f:facet>
+            #{entry['companyDetails'].jobTitle}
+                </h:column>
+                <h:column >
+                    <f:facet name="header">Entreprise</f:facet>
+                    #{entry['company'].name}
+                </h:column>
+                <h:column >
+                    <f:facet name="header">Debut </f:facet>#{entry['companyDetails'].startDay}
+                </h:column>
+                <h:column >
+                    <f:facet name="header">Fin </f:facet>#{entry['companyDetails'].endDay}
+                </h:column>
+            </h:dataTable>
+    </c:if>
 
 
 

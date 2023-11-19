@@ -90,21 +90,45 @@ public class ExperienceServiceEJB {
         }
     }
 
-    public Map<Company, CompanyDetails> getDetailsForAllCompanies(String email) {
+    public List<Map<String, Object>> getDetailsForAllCompanies(String email) {
         User user = UserServiceEJB.findUserByEmail(email);
         if (user == null) {
             return null;
         }
 
         Long userId = user.getId();
-        User loadedUser = session.load(User.class, userId,1); // Charger l'utilisateur avec ses relations
+        User loadedUser = session.load(User.class, userId, 1); // Charger l'utilisateur avec ses relations
 
-            Map<Company, CompanyDetails> companyDetailsMap = new HashMap<>();
-            for (CompanyDetails companyDetails : loadedUser.getCompanies()) {
-                Company company = companyDetails.getCompany();
-                companyDetailsMap.put(company, companyDetails);
-            }
-            return companyDetailsMap;
+        List<Map<String, Object>> companyDetailsList = new ArrayList<>();
+        for (CompanyDetails companyDetails : loadedUser.getCompanies()) {
+            Company company = companyDetails.getCompany();
 
+            Map<String, Object> entry = new HashMap<>();
+            entry.put("company", company);
+            entry.put("companyDetails", companyDetails);
+
+            companyDetailsList.add(entry);
+        }
+
+        return companyDetailsList;
     }
+
+
+//    public Map<Company, CompanyDetails> getDetailsForAllCompanies(String email) {
+//        User user = UserServiceEJB.findUserByEmail(email);
+//        if (user == null) {
+//            return null;
+//        }
+//
+//        Long userId = user.getId();
+//        User loadedUser = session.load(User.class, userId,1); // Charger l'utilisateur avec ses relations
+//
+//            Map<Company, CompanyDetails> companyDetailsMap = new HashMap<>();
+//            for (CompanyDetails companyDetails : loadedUser.getCompanies()) {
+//                Company company = companyDetails.getCompany();
+//                companyDetailsMap.put(company, companyDetails);
+//            }
+//            return companyDetailsMap;
+//
+//    }
 }

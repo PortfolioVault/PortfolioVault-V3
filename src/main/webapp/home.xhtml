@@ -60,8 +60,8 @@
     <c:if test="#{not empty diplomaBean.allDiplomesDetails}">
         <div class="cards-container">
             <c:forEach var="entry" items="#{diplomaBean.allDiplomesDetails}">
-                <c:set var="diplome" value="#{entry.key}" />
-                <c:set var="details" value="#{entry.value}" />
+                <c:set var="diplome" value="#{entry['diplome']}" />
+                <c:set var="details" value="#{entry['diplomaDetails']}" />
                 <div class="card">
                     <h3>#{details.fieldOfStudy}</h3>
                     <p><strong>Degree classification:</strong> #{details.degreeType}</p>
@@ -79,8 +79,8 @@
     <c:if test="#{not empty experienceBean.allExperiencesDetails}">
         <div class="cards-container">
             <c:forEach var="entry" items="#{experienceBean.allExperiencesDetails}">
-                <c:set var="company" value="#{entry.key}" />
-                <c:set var="details" value="#{entry.value}" />
+                <c:set var="company" value="#{entry['company']}" />
+                <c:set var="details" value="#{entry['companyDetails']}" />
                 <div class="card">
                     <h3>#{details.jobTitle}</h3>
                     <p><strong>Name of Company:</strong> #{company.name}</p>
@@ -90,9 +90,9 @@
             </c:forEach>
         </div>
     </c:if>
-    <div class="submit-container">
+<!--    <div class="submit-container">-->
         <a href="addExperience.xhtml" class="submit-btn">Add New</a>
-    </div>
+<!--    </div>-->
 </div>
 <div class="submit-all-container">
     <a href="profil.xhtml" class="submit-btn">Preview</a>
