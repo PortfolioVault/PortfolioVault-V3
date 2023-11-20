@@ -65,14 +65,13 @@ public class ExperienceBean implements Serializable {
         startDay="";
         endDay="";
         return null;
-
     }
 
     public List<Company> getAllExperiences(){
         return experienceServiceEJB.getExperiences(userSession.getEmail());
     }
 
-    public Map<Company, CompanyDetails> getAllExperiencesDetails(){
+    public List<Map<String, Object>> getAllExperiencesDetails(){
         return experienceServiceEJB.getDetailsForAllCompanies(userSession.getEmail());
     }
 }

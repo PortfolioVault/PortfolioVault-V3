@@ -18,6 +18,7 @@ import lombok.Setter;
 
 import java.io.IOException;
 import java.io.Serializable;
+import java.util.List;
 import java.util.Map;
 
 @Named
@@ -69,7 +70,7 @@ public class DiplomaBean implements Serializable {
 
     }
 
-    public Map<Diplome, DiplomaDetails> getAllDiplomesDetails(){
+    public List<Map<String, Object>> getAllDiplomesDetails(){
         return diplomeServiceEJB.getDetailsForAllDiplomes(userSession.getEmail());
     }
 }
